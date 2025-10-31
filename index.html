@@ -12,6 +12,7 @@
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: false">
+
       <a-assets>
         <img id="card" src="./card.png" />
         <a-asset-item id="model" src="./model.glb"></a-asset-item>
@@ -19,11 +20,26 @@
 
       <a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
 
+      <!-- 灯光，避免模型太暗 -->
+      <a-entity light="type: ambient; intensity: 1"></a-entity>
+      <a-entity light="type: directional; intensity: 0.8" position="1 1 1"></a-entity>
+
+      <!-- targetIndex: 0 对应你在编译器里上传的第1张图片 -->
       <a-entity mindar-image-target="targetIndex: 0">
+        <!-- 把卡牌图当作地板贴图（可选） -->
         <a-plane src="#card" position="0 0 0" width="1" height="0.6"></a-plane>
-        <a-gltf-model src="#model" position="0 0 0.1" scale="0.01 0.01 0.01"
-                      animation="property: rotation; to: 0 360 0; loop: true; dur: 3000;">
+
+        <!-- 你的 glb 模型 -->
+        <a-gltf-model src="#model"
+          position="0 0 0.08"
+          scale="0.02 0.02 0.02"
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 3000;">
         </a-gltf-model>
+
+        <!-- 备用测试：一个盒子。若能看到盒子但看不到模型，说明是 glb 路径/尺寸问题 -->
+        <a-box position="0 0.05 0.06" depth="0.02" height="0.02" width="0.02"
+               animation="property: position; to: 0 0.08 0.06; dir: alternate; loop: true; dur: 800">
+        </a-box>
       </a-entity>
     </a-scene>
   </body>
